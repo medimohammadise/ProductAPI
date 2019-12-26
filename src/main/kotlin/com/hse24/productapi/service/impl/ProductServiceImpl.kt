@@ -19,7 +19,9 @@ class ProductServiceImpl
 ) : ProductService {
     private val log = LoggerFactory.getLogger(ProductServiceImpl::class.java)
     override fun findAll(pageable: Pageable): Page<ProductDTO> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        log.debug("Request to get all Products")
+        return productRepository.findAll(pageable)
+                .map(productMapper::toDto)
     }
 
     override fun findOne(id: Long): Optional<ProductDTO> {

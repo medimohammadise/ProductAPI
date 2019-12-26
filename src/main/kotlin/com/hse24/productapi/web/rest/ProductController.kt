@@ -1,6 +1,9 @@
 package com.hse24.productapi.web.rest
 
+import com.hse24.productapi.service.ProductService
 import com.hse24.productapi.service.dto.ProductDTO
+import com.hse24.productapi.utils.PaginationUtil
+import org.slf4j.LoggerFactory
 import org.springframework.data.domain.Pageable
 import org.springframework.http.ResponseEntity
 import org.springframework.util.MultiValueMap
@@ -18,7 +21,10 @@ import javax.validation.Valid
 
 @RestController
 @RequestMapping("/api")
-class ProductController {
+class ProductController (
+        val productService: ProductService
+){
+    private val log = LoggerFactory.getLogger(this.javaClass)
     @PostMapping("/products")
     fun createProduct(@Valid @RequestBody productDTO: ProductDTO): ResponseEntity<ProductDTO> {
         TODO("not implemented")
@@ -46,7 +52,10 @@ class ProductController {
      */
     @GetMapping("/products")
     fun getAllProducts(pageable: Pageable, @RequestParam queryParams: MultiValueMap<String, String>, uriBuilder: UriComponentsBuilder): ResponseEntity<MutableList<ProductDTO>> {
-        TODO("not implemented")
+        log.debug("REST request to get a page of Products")
+        val page = productService.findAll(pageable)
+        val headers = PaginationUtil.generatePaginationHttpHeaders(uriBuilder.queryParams(queryParams), page)
+        return ResponseEntity.ok().headers(headers).body(page.content)
     }
 
     /**
