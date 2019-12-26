@@ -15,3 +15,12 @@ spring:
         jdbc:
           lob:
             non_contextual_creation: true
+
+app:
+  cors:
+    allowed-origins: '*'
+    allowed-methods: '*'
+    allowed-headers: '*'
+    exposed-headers: 'Authorization,Link,X-Total-Count'
+    allow-credentials: true
+    max-age: 1800
