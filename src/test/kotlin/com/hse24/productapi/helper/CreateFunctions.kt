@@ -21,24 +21,26 @@ class FixtureCreator {
     }
 
     fun createProduct(
-            id: UUID = UUID.randomUUID(),
+            id: UUID? = UUID.randomUUID(),
             description: String? = faker.commerce()?.productDescription(),
             code: String? = faker.commerce().productCode(),
             price: BigDecimal? = faker.commerce().priceDecimal(),
-            currency: Currency?=Currency.EUR,
-            createdAt: Instant? = java.time.Instant.ofEpochMilli(0L)
+            currency: Currency? = Currency.EUR,
+            createdAt: Instant? = Instant.ofEpochMilli(0L),
+            productCategoryId: UUID? = null
     ): ProductDTO {
         return ProductDTO(
                 id = id,
                 description = description ?: "",
                 code = code ?: "",
                 price = price ?: BigDecimal.ZERO,
-                currency=currency,
-                createdAt=createdAt)
+                currency = currency,
+                createdAt = createdAt,
+                productCategoryId = productCategoryId)
     }
 
     fun createProductCategory(
-            id: UUID = UUID.randomUUID(),
+            id: UUID? = UUID.randomUUID(),
             code: String? = faker.commerce().productCode(),
             name: String? = faker.commerce()?.productDescription(),
             createdAt: Instant? = java.time.Instant.ofEpochMilli(0L)

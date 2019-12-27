@@ -20,4 +20,11 @@ data class ProductCategoryDTO(
 
         var productCategoryId: UUID? = null
 
-) : Serializable
+) : Serializable {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is ProductCategoryDTO) return false
+        if (other.id == null || id == null) return false
+        return code.equals(other.code)
+    }
+}
