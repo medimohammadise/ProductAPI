@@ -8,4 +8,11 @@ import org.springframework.web.cors.CorsConfiguration
 @ConfigurationProperties("app")
 class AppConfiguration{
      var cors:CorsConfiguration=CorsConfiguration()
+     var fixerApi=FixerApi()
+}
+
+class FixerApi {
+     lateinit var apiKey: String
+     lateinit var endpoint: String
+     lateinit var latestEndpoint: String
 }

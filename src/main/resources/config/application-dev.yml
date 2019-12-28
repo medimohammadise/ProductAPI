@@ -31,3 +31,8 @@ spring:
       hibernate.cache.use_second_level_cache: false
       hibernate.cache.use_query_cache: false
       hibernate.generate_statistics: false
+app:
+  fixer-api:
+    api-key: "64dbc69187ca8175cd11ecd65ef6c0d7"
+    endpoint: "http://data.fixer.io/api"
+    latest-endpoint: "${app.fixer-api.endpoint}/latest?access_key=${app.fixer-api.api-key}"
