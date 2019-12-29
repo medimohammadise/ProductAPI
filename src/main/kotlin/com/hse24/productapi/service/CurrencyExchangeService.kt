@@ -1,6 +1,6 @@
 package com.hse24.productapi.service
 
-import com.hse24.productapi.integration.restconsumer.dato.ExchangeRateDTO
+import com.hse24.productapi.integration.restconsumer.dto.ExchangeRateDTO
 import com.hse24.productapi.service.dto.ExchangeRequestDTO
 import com.hse24.productapi.service.enumeration.Currency
 import java.math.BigDecimal

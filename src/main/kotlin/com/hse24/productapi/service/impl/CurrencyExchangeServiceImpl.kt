@@ -1,7 +1,7 @@
 package com.hse24.productapi.service.impl
 
 import com.hse24.productapi.integration.restconsumer.CurrencyExchangeAPIClient
-import com.hse24.productapi.integration.restconsumer.dato.ExchangeRateDTO
+import com.hse24.productapi.integration.restconsumer.dto.ExchangeRateDTO
 import com.hse24.productapi.service.CurrencyExchangeService
 import com.hse24.productapi.service.dto.ExchangeRequestDTO
 import com.hse24.productapi.service.enumeration.Currency
@@ -23,10 +23,10 @@ class CurrencyConverterServiceImpl : CurrencyExchangeService {
     }
 
     override fun getHistoricalConvertedValue(fromCurrency: Currency, toCurrency: Currency, valueToConvert: BigDecimal, date: Date): ExchangeRequestDTO {
-         val exchangeRate=currencyExchangeAPIClient.getHistoricalValue(
-                fromCurrency=fromCurrency,
-                toCurrency =toCurrency,
-                date=date
+        val exchangeRate = currencyExchangeAPIClient.getHistoricalValue(
+                fromCurrency = fromCurrency,
+                toCurrency = toCurrency,
+                date = date
         )
 
         return calculate(exchangeRate!!, fromCurrency, toCurrency, valueToConvert)
@@ -53,8 +53,8 @@ class CurrencyConverterServiceImpl : CurrencyExchangeService {
     private fun calculate(exchangeRate: ExchangeRateDTO, fromCurrency: Currency,
                           toCurrency: Currency, valueToConvert: BigDecimal): ExchangeRequestDTO {
         return ExchangeRequestDTO(
-                success = exchangeRate.success?:false,
-                historical = exchangeRate.historical?:false,
+                success = exchangeRate.success ?: false,
+                historical = exchangeRate.historical ?: false,
                 rateDate = exchangeRate.date!!,
                 valueToConvert = valueToConvert,
                 convertedValue = exchangeRate.rates!!.get(toCurrency.name)!!.times(valueToConvert),

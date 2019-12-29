@@ -31,8 +31,22 @@ spring:
       hibernate.cache.use_second_level_cache: false
       hibernate.cache.use_query_cache: false
       hibernate.generate_statistics: false
+
+  jms:
+    pub-sub-domain: true
+    template:
+      delivery-mode: persistent
+
+  activemq:
+    packages:
+      trusted: com.hse24.productapi.integration.restconsumer.da
+    broker-url: "tcp://localhost:61616"
+    username: "admin"
+    password: "admin"
+
 app:
   fixer-api:
     api-key: "64dbc69187ca8175cd11ecd65ef6c0d7"
     endpoint: "http://data.fixer.io/api"
     latest-endpoint: "${app.fixer-api.endpoint}/latest?access_key=${app.fixer-api.api-key}"
+  currency_activemq_topic: "currency_topic"

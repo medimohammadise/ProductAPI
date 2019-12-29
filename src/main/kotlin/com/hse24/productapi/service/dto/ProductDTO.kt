@@ -1,6 +1,7 @@
 package com.hse24.productapi.service.dto
 
 import com.hse24.productapi.service.enumeration.Currency
+import java.io.Serializable
 import java.math.BigDecimal
 import java.time.Instant
 import java.util.UUID
@@ -21,7 +22,7 @@ data class ProductDTO(
 
         var productCategoryId: UUID? = null
 
-) {
+) : Serializable {
     override fun hashCode(): Int {
         return id.hashCode()
     }
