@@ -31,8 +31,6 @@ class ProductController(
 ) {
     private val log = LoggerFactory.getLogger(this.javaClass)
 
-    @Value("\$app.application_name}")
-    lateinit var applicationName: String
 
 
     @PostMapping("/products")
@@ -43,7 +41,7 @@ class ProductController(
         }
         val result = productService.save(productDTO)
         return ResponseEntity.created(URI("/api/products/" + result.id))
-                .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.id.toString()))
+                .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, true, ENTITY_NAME, result.id.toString()))
                 .body(result)
     }
 
@@ -58,7 +56,14 @@ class ProductController(
      */
     @PutMapping("/products")
     fun updateProduct(@Valid @RequestBody productDTO: ProductDTO): ResponseEntity<ProductDTO> {
-        TODO("not implemented")
+        log.debug("REST request to update Product : {}", productDTO)
+        if (productDTO.id == null) {
+            throw BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull")
+        }
+        val result = productService.save(productDTO)
+        return ResponseEntity.ok()
+                .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, true, ENTITY_NAME, productDTO.id.toString()))
+                .body(result)
     }
 
     /**

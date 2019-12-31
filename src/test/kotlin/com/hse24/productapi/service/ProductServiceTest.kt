@@ -1,6 +1,12 @@
 package com.hse24.productapi.service
 
 import com.hse24.productapi.helper.FixtureCreator
+import com.hse24.productapi.helper.FixtureCreator.Companion.DEFAULT_CURRENCY
+import com.hse24.productapi.helper.FixtureCreator.Companion.DEFAULT_DESCRIPTION
+import com.hse24.productapi.helper.FixtureCreator.Companion.DEFAULT_PRICE
+import com.hse24.productapi.helper.FixtureCreator.Companion.DEFAULT_PRODUCT_CATEGORY_CODE
+import com.hse24.productapi.helper.FixtureCreator.Companion.DEFAULT_PRODUCT_CATEGORY_NAME
+import com.hse24.productapi.helper.FixtureCreator.Companion.DEFAULT_PRODUCT_CODE
 import com.hse24.productapi.repository.ProductCategoryRepository
 import com.hse24.productapi.repository.ProductRepository
 import com.hse24.productapi.service.enumeration.Currency
@@ -14,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.domain.PageRequest
 import java.math.BigDecimal
+import kotlin.test.assertNotNull
 
 
 @ExtendWith
@@ -42,15 +49,56 @@ class ProductServiceTest {
         @Test
         fun `test create new product`() {
 
-            var productDTO = fixtureCreator.createProduct()
-            var productCategoryDTO = fixtureCreator.createProductCategory()
+            var productCategoryDTO = fixtureCreator.createProductCategory(code=DEFAULT_PRODUCT_CATEGORY_CODE,name= DEFAULT_PRODUCT_CATEGORY_NAME )
             val productCategory = productCategoryRepository.save(productCategoryMapper.toEntity(productCategoryDTO))
+            var productDTO=fixtureCreator.createProduct(
+                    code = DEFAULT_PRODUCT_CODE,
+                    description = DEFAULT_DESCRIPTION,
+                    price = DEFAULT_PRICE,
+                    currency = DEFAULT_CURRENCY,
+                    productCategoryId = productCategory.id)
             productDTO.productCategoryId = productCategory.id
             productDTO = productService.save(productDTO)
             productRepository.findById(productDTO.id!!)
-            assertThat(productDTO.code).isNotEmpty()
+            assertThat(productDTO.code).isEqualTo(DEFAULT_PRODUCT_CODE)
+            assertThat(productDTO.description).isEqualTo(DEFAULT_DESCRIPTION)
+            assertThat(productDTO.price).isEqualTo(DEFAULT_PRICE)
+            assertThat(productDTO.currency).isEqualTo(DEFAULT_CURRENCY)
         }
 
+        @Test
+        fun `test update the product`() {
+            var productCategoryDTO = fixtureCreator.createProductCategory(code=DEFAULT_PRODUCT_CATEGORY_CODE,name= DEFAULT_PRODUCT_CATEGORY_NAME )
+            val productCategory = productCategoryRepository.save(productCategoryMapper.toEntity(productCategoryDTO))
+            var productDTO=fixtureCreator.createProduct(
+                    code = DEFAULT_PRODUCT_CODE,
+                    description = DEFAULT_DESCRIPTION,
+                    price = DEFAULT_PRICE,
+                    currency = DEFAULT_CURRENCY,
+                    productCategoryId = productCategory.id)
+            productDTO.productCategoryId = productCategory.id
+            productDTO = productService.save(productDTO)
+
+            val databaseSizeBeforeUpdate = productRepository.findAll().size
+            val id = productDTO.id
+            assertNotNull(id)
+            val updatedProduct = productRepository.findById(id).get()
+
+            updatedProduct.code = FixtureCreator.UPDATED_PRODUCT_CODE
+            updatedProduct.description = FixtureCreator.UPDATED_DESCRIPTION
+            updatedProduct.price = FixtureCreator.UPDATED_PRICE
+            updatedProduct.currency = FixtureCreator.UPDATED_CURRENCY
+            updatedProduct.createdAt = FixtureCreator.UPDATED_CREATED_AT
+
+            productRepository.save(updatedProduct)
+            val testProduct = productRepository.findById(updatedProduct.id).get()
+
+            assertThat(testProduct.code).isEqualTo(FixtureCreator.UPDATED_PRODUCT_CODE)
+            assertThat(testProduct.description).isEqualTo(FixtureCreator.UPDATED_DESCRIPTION)
+            assertThat(testProduct.currency).isEqualTo(FixtureCreator.UPDATED_CURRENCY)
+            assertThat(testProduct.createdAt).isEqualTo(FixtureCreator.UPDATED_CREATED_AT)
+
+        }
         @Test
         fun `test getAll products`() {
             var productCategoryDTO = fixtureCreator.createProductCategory(code = "CAT-00001", name = "Category1")
