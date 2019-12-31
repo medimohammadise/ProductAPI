@@ -56,6 +56,9 @@ dependencies {
 	implementation "org.springframework.boot:spring-boot-starter-activemq:${spring_boot_version}"
 	implementation "org.apache.activemq:activemq-broker:${activemq_broker_version}"
 	implementation "com.google.code.gson:gson:${gson_version}"
+	implementation "org.zalando:problem:${zalando_problem_version}"
+	implementation "org.zalando:jackson-datatype-problem:${zalando_problem_version}"
+	implementation "org.zalando:problem-spring-web:0.25.2"
 
 
 }

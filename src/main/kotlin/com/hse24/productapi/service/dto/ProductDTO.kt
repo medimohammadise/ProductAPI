@@ -18,7 +18,7 @@ data class ProductDTO(
 
         var currency: Currency? = null,
 
-        var createdAt: Instant? = null,
+        var createdAt: Instant? = Instant.ofEpochMilli(0L),
 
         var productCategoryId: UUID? = null
 

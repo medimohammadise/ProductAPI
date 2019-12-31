@@ -14,13 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.domain.PageRequest
 import java.math.BigDecimal
-import javax.transaction.Transactional
 
 
 @ExtendWith
 @SpringBootTest
-@Transactional
-class TestProduct {
+class ProductServiceTest {
 
     @Autowired
     private lateinit var productRepository: ProductRepository

@@ -2,8 +2,12 @@ package com.hse24.productapi.web.rest
 
 import com.hse24.productapi.service.ProductService
 import com.hse24.productapi.service.dto.ProductDTO
+import com.hse24.productapi.utils.HeaderUtil
 import com.hse24.productapi.utils.PaginationUtil
+import com.hse24.productapi.web.rest.errors.BadRequestAlertException
+import org.hibernate.id.IdentifierGenerator.ENTITY_NAME
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.domain.Pageable
 import org.springframework.http.ResponseEntity
 import org.springframework.util.MultiValueMap
@@ -17,17 +21,30 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.util.UriComponentsBuilder
+import java.net.URI
 import javax.validation.Valid
 
 @RestController
 @RequestMapping("/api")
-class ProductController (
+class ProductController(
         val productService: ProductService
-){
+) {
     private val log = LoggerFactory.getLogger(this.javaClass)
+
+    @Value("\$app.application_name}")
+    lateinit var applicationName: String
+
+
     @PostMapping("/products")
     fun createProduct(@Valid @RequestBody productDTO: ProductDTO): ResponseEntity<ProductDTO> {
-        TODO("not implemented")
+        log.debug("REST request to save Product : {}", productDTO)
+        if (productDTO.id != null) {
+            throw BadRequestAlertException("A new product cannot already have an ID", ENTITY_NAME, "idexists")
+        }
+        val result = productService.save(productDTO)
+        return ResponseEntity.created(URI("/api/products/" + result.id))
+                .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.id.toString()))
+                .body(result)
     }
 
     /**

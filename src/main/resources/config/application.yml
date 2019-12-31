@@ -17,6 +17,7 @@ spring:
             non_contextual_creation: true
 
 app:
+  application_name: ProductAPI
   cors:
     allowed-origins: '*'
     allowed-methods: '*'

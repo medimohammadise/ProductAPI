@@ -7,6 +7,7 @@ import org.springframework.web.cors.CorsConfiguration
 @Configuration
 @ConfigurationProperties("app")
 class AppConfiguration{
+     lateinit var  applicationName:String
      var cors:CorsConfiguration=CorsConfiguration()
      var fixerApi=FixerApi()
      lateinit var currencyActivemqTopic:String

@@ -16,12 +16,12 @@ import java.util.UUID
 
 class FixtureCreator {
     companion object {
-        val SEED = Random(123456789)
+        private val SEED = Random(123456789)
         val faker = Faker(Locale.ENGLISH, SEED)
     }
 
     fun createProduct(
-            id: UUID? = UUID.randomUUID(),
+            id: UUID? = null,
             description: String? = faker.commerce()?.productDescription(),
             code: String? = faker.commerce().productCode(),
             price: BigDecimal? = faker.commerce().priceDecimal(),
@@ -40,7 +40,7 @@ class FixtureCreator {
     }
 
     fun createProductCategory(
-            id: UUID? = UUID.randomUUID(),
+            id: UUID? = null,
             code: String? = faker.commerce().productCode(),
             name: String? = faker.commerce()?.productDescription(),
             createdAt: Instant? = java.time.Instant.ofEpochMilli(0L)

@@ -14,3 +14,4 @@ inline fun <reified T> ResultActions.andReturnResult(): T {
     val json = response.contentAsString
     return TestExtensions.OBJECT_MAPPER.readValue(json, T::class.java)
 }
+fun Any.writeValueAsByte()= TestExtensions.OBJECT_MAPPER.writeValueAsBytes(this)
