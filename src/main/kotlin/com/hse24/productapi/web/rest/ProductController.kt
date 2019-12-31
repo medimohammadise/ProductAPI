@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.util.UriComponentsBuilder
 import java.net.URI
+import java.util.UUID
 import javax.validation.Valid
 
 @RestController
@@ -87,7 +88,7 @@ class ProductController(
      * @return the [ResponseEntity] with status `200 (OK)` and with body the productDTO, or with status `404 (Not Found)`.
      */
     @GetMapping("/products/{id}")
-    fun getProduct(@PathVariable id: Long): ResponseEntity<ProductDTO> {
+    fun getProduct(@PathVariable id: UUID): ResponseEntity<ProductDTO> {
         TODO("not implemented")
     }
 
@@ -98,7 +99,9 @@ class ProductController(
      * @return the [ResponseEntity] with status `204 (NO_CONTENT)`.
      */
     @DeleteMapping("/products/{id}")
-    fun deleteProduct(@PathVariable id: Long): ResponseEntity<Void> {
-        TODO("not implemented")
+    fun deleteProduct(@PathVariable id: UUID): ResponseEntity<Void> {
+        log.debug("REST request to delete Product : {}", id)
+        productService.delete(id)
+        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, true, ENTITY_NAME, id.toString())).build()
     }
 }

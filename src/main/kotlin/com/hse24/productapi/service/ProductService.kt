@@ -4,6 +4,7 @@ import com.hse24.productapi.service.dto.ProductDTO
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import java.util.Optional
+import java.util.UUID
 
 interface ProductService {
     /**
@@ -28,14 +29,14 @@ interface ProductService {
      * @param id the id of the entity.
      * @return the entity.
      */
-    fun findOne(id: Long): Optional<ProductDTO>
+    fun findOne(id: UUID): Optional<ProductDTO>
 
     /**
      * Delete the "id" product.
      *
      * @param id the id of the entity.
      */
-    fun delete(id: Long)
+    fun delete(id: UUID)
 
     /**
      * Search for the product corresponding to the query.

@@ -100,6 +100,30 @@ class ProductServiceTest {
 
         }
         @Test
+        fun `test delete the product`() {
+            var productCategoryDTO = fixtureCreator.createProductCategory(code=DEFAULT_PRODUCT_CATEGORY_CODE,name= DEFAULT_PRODUCT_CATEGORY_NAME )
+            val productCategory = productCategoryRepository.save(productCategoryMapper.toEntity(productCategoryDTO))
+            var productDTO=fixtureCreator.createProduct(
+                    code = DEFAULT_PRODUCT_CODE,
+                    description = DEFAULT_DESCRIPTION,
+                    price = DEFAULT_PRICE,
+                    currency = DEFAULT_CURRENCY,
+                    productCategoryId = productCategory.id)
+            productDTO.productCategoryId = productCategory.id
+            productDTO = productService.save(productDTO)
+
+            val databaseSizeBeforeDelete = productRepository.findAll().size
+            val id = productDTO.id
+            assertNotNull(id)
+            productRepository.deleteById(id)
+
+            val databaseSizeAfterDelete = productRepository.findAll().size
+
+            assertThat(databaseSizeBeforeDelete).isEqualTo(databaseSizeAfterDelete+1)
+
+
+        }
+        @Test
         fun `test getAll products`() {
             var productCategoryDTO = fixtureCreator.createProductCategory(code = "CAT-00001", name = "Category1")
             val productCategory = productCategoryRepository.save(productCategoryMapper.toEntity(productCategoryDTO))

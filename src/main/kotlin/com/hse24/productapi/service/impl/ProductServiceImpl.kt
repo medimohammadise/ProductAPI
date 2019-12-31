@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.Optional
+import java.util.UUID
 
 @Service
 @Transactional
@@ -24,12 +25,14 @@ class ProductServiceImpl
                 .map(productMapper::toDto)
     }
 
-    override fun findOne(id: Long): Optional<ProductDTO> {
+    override fun findOne(id: UUID): Optional<ProductDTO> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun delete(id: Long) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun delete(id: UUID) {
+        log.debug("Request to delete Product : {}", id)
+
+        productRepository.deleteById(id)
     }
 
     override fun search(query: String, pageable: Pageable): Page<ProductDTO> {

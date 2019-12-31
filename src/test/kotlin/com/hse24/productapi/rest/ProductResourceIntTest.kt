@@ -206,4 +206,37 @@ class ProductResourceIntTest {
         assertThat(newProduct.currency).isEqualTo(DEFAULT_CURRENCY)
         assertThat(newProduct.createdAt).isEqualTo(DEFAULT_CREATED_AT)
     }
+
+    @Test
+    @Transactional
+    fun deleteProduct() {
+        val databaseSizeBeforeCreate = productRepository.findAll().size
+
+        var productCategoryDTO = fixtureCreator.createProductCategory(code = DEFAULT_PRODUCT_CATEGORY_CODE, name = DEFAULT_PRODUCT_CATEGORY_NAME)
+        val productCategory = productCategoryRepository.save(productCategoryMapper.toEntity(productCategoryDTO))
+        var productDTO=fixtureCreator.createProduct(
+                code = DEFAULT_PRODUCT_CODE,
+                description = DEFAULT_DESCRIPTION,
+                price = DEFAULT_PRICE,
+                currency = DEFAULT_CURRENCY,
+                createdAt = DEFAULT_CREATED_AT,
+                productCategoryId = productCategory.id)
+        val product=productRepository.saveAndFlush(productMapper.toEntity(productDTO))
+
+
+        val databaseSizeBeforeDelete = productRepository.findAll().size
+
+        val id =  productRepository.findById(product.id).get().id
+        assertNotNull(id)
+
+        // Delete the product
+        restProductMockMvc.perform(
+                MockMvcRequestBuilders.delete("/api/products/{id}", id)
+        ).andExpect(MockMvcResultMatchers.status().isNoContent)
+
+        // Validate the database is empty
+        val productList = productRepository.findAll()
+        assertThat(productList).hasSize(databaseSizeBeforeDelete - 1)
+
+    }
 }
