@@ -21,7 +21,7 @@ interface ProductCategoryMapper : EntityMapper<ProductCategoryDTO, ProductCatego
     @Mappings(
         Mapping(target = "products", ignore = true),
         Mapping(source = "productCategoryId", target = "productCategory"),
-        Mapping(target = "productCategoryIds", ignore = true)
+        Mapping(source = "productCategoryIds", target = "productCategoryIds")
     )
     override fun toEntity(dto: ProductCategoryDTO): ProductCategory
     fun fromId(id: UUID?): ProductCategory? {

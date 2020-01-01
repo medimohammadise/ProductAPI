@@ -18,7 +18,9 @@ data class ProductCategoryDTO(
         @get: NotNull
         var createdAt: Instant? = null,
 
-        var productCategoryId: UUID? = null
+        var productCategoryId: UUID? = null,
+
+        var productCategoryIds: MutableSet<ProductCategoryDTO> = mutableSetOf()
 
 ) : Serializable {
     override fun equals(other: Any?): Boolean {
