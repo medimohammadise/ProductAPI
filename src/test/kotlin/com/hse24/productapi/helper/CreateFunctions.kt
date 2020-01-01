@@ -34,6 +34,10 @@ class FixtureCreator {
 
         const val DEFAULT_PRODUCT_CATEGORY_CODE: String = "CAT-00001"
         const val DEFAULT_PRODUCT_CATEGORY_NAME: String = "CATEGORY-1"
+        const val UPDATED_PRODUCT_CATEGORY_CODE: String = "CAT-00002"
+        const val UPDATED_PRODUCT_CATEGORY_NAME: String = "CATEGORY-2"
+        const val CHILD_PRODUCT_CATEGORY_CODE: String = "CAT-00003"
+        const val CHILD_PRODUCT_CATEGORY_NAME: String = "CATEGORY-3"
         private val SEED = Random(123456789)
         val faker = Faker(Locale.ENGLISH, SEED)
     }
@@ -61,12 +65,14 @@ class FixtureCreator {
             id: UUID? = null,
             code: String? = faker.commerce().productCode(),
             name: String? = faker.commerce()?.productDescription(),
-            createdAt: Instant? = java.time.Instant.ofEpochMilli(0L)
+            parentCategoryId:UUID?=null,
+            createdAt: Instant? = Instant.ofEpochMilli(0L)
     ): ProductCategoryDTO {
         return ProductCategoryDTO(
                 id = id,
                 name = name ?: "",
                 code = code ?: "",
+                productCategoryId = parentCategoryId,
                 createdAt = createdAt)
     }
 

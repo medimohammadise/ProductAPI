@@ -104,4 +104,8 @@ class ProductController(
         productService.delete(id)
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, true, ENTITY_NAME, id.toString())).build()
     }
+
+    companion object {
+        private const val ENTITY_NAME = "product"
+    }
 }

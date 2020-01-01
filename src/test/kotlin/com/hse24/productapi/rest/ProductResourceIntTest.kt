@@ -143,8 +143,6 @@ class ProductResourceIntTest {
         // Initialize the database
         val product=productRepository.saveAndFlush(productMapper.toEntity(productDTO))
 
-        val databaseSizeBeforeUpdate = productRepository.findAll().size
-
         // Update the product
         val id = product.id
         assertNotNull(id)
@@ -165,7 +163,7 @@ class ProductResourceIntTest {
                 .andReturnResult<ProductDTO>()
 
         // Validate the Product in the database
-        val newProduct = productRepository.findById(updatedProductDTO.id).get()
+        val newProduct = productRepository.findById(updatedProductDTO.id!!).get()
 
         assertThat(newProduct.code).isEqualTo(UPDATED_PRODUCT_CODE)
         assertThat(newProduct.description).isEqualTo(UPDATED_DESCRIPTION)
@@ -178,8 +176,6 @@ class ProductResourceIntTest {
     @Test
     @Transactional
     fun createProduct() {
-        val databaseSizeBeforeCreate = productRepository.findAll().size
-
         var productCategoryDTO = fixtureCreator.createProductCategory(code = DEFAULT_PRODUCT_CATEGORY_CODE, name = DEFAULT_PRODUCT_CATEGORY_NAME)
         val productCategory = productCategoryRepository.save(productCategoryMapper.toEntity(productCategoryDTO))
         var productDTO=fixtureCreator.createProduct(
@@ -199,7 +195,7 @@ class ProductResourceIntTest {
                .andReturnResult<ProductDTO>()
 
         // Validate the Product in the database
-        val newProduct = productRepository.findById(newProductDTO.id).get()
+        val newProduct = productRepository.findById(newProductDTO.id!!).get()
         assertThat(newProduct.code).isEqualTo(DEFAULT_PRODUCT_CODE)
         assertThat(newProduct.description).isEqualTo(DEFAULT_DESCRIPTION)
         assertThat(newProduct.price).isEqualTo(DEFAULT_PRICE)
@@ -210,7 +206,6 @@ class ProductResourceIntTest {
     @Test
     @Transactional
     fun deleteProduct() {
-        val databaseSizeBeforeCreate = productRepository.findAll().size
 
         var productCategoryDTO = fixtureCreator.createProductCategory(code = DEFAULT_PRODUCT_CATEGORY_CODE, name = DEFAULT_PRODUCT_CATEGORY_NAME)
         val productCategory = productCategoryRepository.save(productCategoryMapper.toEntity(productCategoryDTO))
@@ -226,7 +221,7 @@ class ProductResourceIntTest {
 
         val databaseSizeBeforeDelete = productRepository.findAll().size
 
-        val id =  productRepository.findById(product.id).get().id
+        val id =  productRepository.findById(product.id!!).get().id
         assertNotNull(id)
 
         // Delete the product

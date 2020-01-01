@@ -20,7 +20,7 @@ interface ProductCategoryMapper : EntityMapper<ProductCategoryDTO, ProductCatego
     override fun toDto(entity: ProductCategory): ProductCategoryDTO
     @Mappings(
         Mapping(target = "products", ignore = true),
-        Mapping(source = "productCategoryId", target = "id"),
+        Mapping(source = "productCategoryId", target = "productCategory"),
         Mapping(target = "productCategoryIds", ignore = true)
     )
     override fun toEntity(dto: ProductCategoryDTO): ProductCategory

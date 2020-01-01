@@ -79,7 +79,6 @@ class ProductServiceTest {
             productDTO.productCategoryId = productCategory.id
             productDTO = productService.save(productDTO)
 
-            val databaseSizeBeforeUpdate = productRepository.findAll().size
             val id = productDTO.id
             assertNotNull(id)
             val updatedProduct = productRepository.findById(id).get()
@@ -91,7 +90,7 @@ class ProductServiceTest {
             updatedProduct.createdAt = FixtureCreator.UPDATED_CREATED_AT
 
             productRepository.save(updatedProduct)
-            val testProduct = productRepository.findById(updatedProduct.id).get()
+            val testProduct = productRepository.findById(updatedProduct.id!!).get()
 
             assertThat(testProduct.code).isEqualTo(FixtureCreator.UPDATED_PRODUCT_CODE)
             assertThat(testProduct.description).isEqualTo(FixtureCreator.UPDATED_DESCRIPTION)
@@ -128,8 +127,7 @@ class ProductServiceTest {
             var productCategoryDTO = fixtureCreator.createProductCategory(code = "CAT-00001", name = "Category1")
             val productCategory = productCategoryRepository.save(productCategoryMapper.toEntity(productCategoryDTO))
 
-
-            val productList = mutableListOf(
+            val productList=productRepository.saveAll(productMapper.toEntity(mutableListOf(
                     fixtureCreator.createProduct(
                             code = "HSE24-23565",
                             price = BigDecimal(20.24),
@@ -145,14 +143,12 @@ class ProductServiceTest {
                             price = BigDecimal(20.24),
                             currency = Currency.EUR,
                             productCategoryId = productCategory.id)
-            )
-
-            productRepository.saveAll(productMapper.toEntity(productList))
+            )))
             productRepository.flush()
-            val fetchedProductList = productService.findAll(PageRequest.of(0, 10))
+            val fetchedProductList = productService.findAll(PageRequest.of(0, 100))
 
             assertThat(fetchedProductList.content.size).isNotZero()
-            assertThat(fetchedProductList.content).containsAll(productList)
+            assertThat(fetchedProductList.content).containsAll(productMapper.toDto(productList))
         }
     }
 }
