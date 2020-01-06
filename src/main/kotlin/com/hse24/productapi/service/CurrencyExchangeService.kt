@@ -10,7 +10,7 @@ interface CurrencyExchangeService {
 
     fun getAllCurrencyRates(): ExchangeRateDTO?
 
-    fun getConvertedValue(fromCurrency: Currency, toCurrency: Currency,
+    suspend fun getConvertedValue(fromCurrency: Currency, toCurrency: Currency,
                           valueToConvert: BigDecimal): ExchangeRequestDTO
     fun getHistoricalConvertedValue(fromCurrency: Currency, toCurrency: Currency, valueToConvert: BigDecimal, date: Date): ExchangeRequestDTO
 }

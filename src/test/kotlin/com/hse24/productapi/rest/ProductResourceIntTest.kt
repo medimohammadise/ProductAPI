@@ -51,7 +51,7 @@ import kotlin.test.assertNotNull
  */
 
 @ExtendWith
-@SpringBootTest(properties=["jhipster.clientApp.name=dummyValue"])
+@SpringBootTest
 
 
 class ProductResourceIntTest {
@@ -90,8 +90,6 @@ class ProductResourceIntTest {
         this.restProductMockMvc = MockMvcBuilders.standaloneSetup(productResource)
                 .setCustomArgumentResolvers(pageableArgumentResolver)
                 .build()
-
-        System.setProperty("jhipster.clientApp.name", "test");
     }
     @Test
     @Transactional

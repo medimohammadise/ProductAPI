@@ -16,7 +16,7 @@ data class ProductCategoryDTO(
         var name: String? = null,
 
         @get: NotNull
-        var createdAt: Instant? = null,
+        var createdAt: Instant? = Instant.ofEpochMilli(0L),
 
         var productCategoryId: UUID? = null,
 

@@ -3,7 +3,9 @@ package com.hse24.productapi.service
 import com.hse24.productapi.config.AppConfiguration
 import com.hse24.productapi.extensions.getTheDayBefore
 import com.hse24.productapi.integration.restconsumer.dto.ExchangeRateDTO
+import com.hse24.productapi.service.dto.ExchangeRequestDTO
 import com.hse24.productapi.service.enumeration.Currency
+import kotlinx.coroutines.runBlocking
 import org.apache.activemq.command.ActiveMQTopic
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
@@ -45,7 +47,11 @@ class CurrencyConverterServiceTest {
 
         @Test
         fun `test convert rate from one symbol to another`() {
-            val exchangeRateRequestDTO = currencyExchangeService.getConvertedValue(Currency.EUR, Currency.USD, BigDecimal(1))
+            lateinit var exchangeRateRequestDTO:ExchangeRequestDTO
+            runBlocking {
+                 exchangeRateRequestDTO = currencyExchangeService.getConvertedValue(Currency.EUR, Currency.USD, BigDecimal(1))
+            }
+
             assertThat(exchangeRateRequestDTO.success).isTrue()
             assertThat(exchangeRateRequestDTO.convertedValue).isNotNull()
         }
@@ -66,7 +72,10 @@ class CurrencyConverterServiceTest {
     inner class UnsuccessfulFixerAPIClass {
         @Test
         fun `test service returns proper error when invalid symbol is passed`() {
-            val exchangeRateRequestDTO = currencyExchangeService.getConvertedValue(Currency.INVALID_CURRENCY, Currency.INVALID_CURRENCY, BigDecimal(1))
+            lateinit var exchangeRateRequestDTO:ExchangeRequestDTO
+            runBlocking {
+                exchangeRateRequestDTO = currencyExchangeService.getConvertedValue(Currency.INVALID_CURRENCY, Currency.INVALID_CURRENCY, BigDecimal(1))
+            }
             assertThat(exchangeRateRequestDTO.success).isFalse()
             assertThat(exchangeRateRequestDTO.error).isNotNull()
         }

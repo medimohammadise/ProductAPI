@@ -59,6 +59,8 @@ dependencies {
 	implementation "org.zalando:problem:${zalando_problem_version}"
 	implementation "org.zalando:jackson-datatype-problem:${zalando_problem_version}"
 	implementation "org.zalando:problem-spring-web:0.25.2"
+	implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3'
+	implementation "org.springframework.boot:spring-boot-starter-websocket"
 
 
 }

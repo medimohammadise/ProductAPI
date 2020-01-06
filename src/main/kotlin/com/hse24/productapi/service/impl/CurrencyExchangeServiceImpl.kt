@@ -33,7 +33,7 @@ class CurrencyConverterServiceImpl : CurrencyExchangeService {
 
     }
 
-    override fun getConvertedValue(fromCurrency: Currency, toCurrency: Currency,
+    override suspend fun  getConvertedValue(fromCurrency: Currency, toCurrency: Currency,
                                    valueToConvert: BigDecimal): ExchangeRequestDTO {
 
         val exchangeRate = currencyExchangeAPIClient.getExchangeRate(fromCurrency, toCurrency)
