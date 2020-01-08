@@ -1,5 +1,6 @@
 package com.hse24.productapi.service
 
+import com.hse24.productapi.BaseTest
 import com.hse24.productapi.helper.FixtureCreator
 import com.hse24.productapi.helper.FixtureCreator.Companion.CHILD_PRODUCT_CATEGORY_CODE
 import com.hse24.productapi.helper.FixtureCreator.Companion.CHILD_PRODUCT_CATEGORY_NAME
@@ -21,7 +22,7 @@ import kotlin.test.assertNotNull
 
 @ExtendWith
 @SpringBootTest
-class ProductCategoryServiceTest {
+class ProductCategoryServiceTest: BaseTest() {
 
     @Autowired
     private lateinit var productCategoryRepository: ProductCategoryRepository

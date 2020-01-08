@@ -29,7 +29,7 @@ class ProductCategory(
          * The firstname attribute.
          */
         @get: NotNull
-        @Column(name = "code", nullable = false)
+        @Column(name = "code", nullable = false, unique = true)
         var code: String? = null,
 
         @get: NotNull

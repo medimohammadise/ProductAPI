@@ -28,7 +28,7 @@ class Product(
         var id: UUID? = null,
 
         @get: NotNull
-        @Column(name = "code", nullable = false)
+        @Column(name = "code", nullable = false, unique = true)
         var code: String? = null,
 
         @get: NotNull

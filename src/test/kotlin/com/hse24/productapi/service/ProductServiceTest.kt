@@ -1,5 +1,6 @@
 package com.hse24.productapi.service
 
+import com.hse24.productapi.BaseTest
 import com.hse24.productapi.helper.FixtureCreator
 import com.hse24.productapi.helper.FixtureCreator.Companion.DEFAULT_CURRENCY
 import com.hse24.productapi.helper.FixtureCreator.Companion.DEFAULT_DESCRIPTION
@@ -25,7 +26,7 @@ import kotlin.test.assertNotNull
 
 @ExtendWith
 @SpringBootTest
-class ProductServiceTest {
+class ProductServiceTest : BaseTest() {
 
     @Autowired
     private lateinit var productRepository: ProductRepository
@@ -44,8 +45,10 @@ class ProductServiceTest {
 
     val fixtureCreator: FixtureCreator = FixtureCreator()
 
+
     @Nested
     inner class ProductCRUDOperations {
+
         @Test
         fun `test create new product`() {
 
@@ -150,5 +153,7 @@ class ProductServiceTest {
             assertThat(fetchedProductList.content.size).isNotZero()
             assertThat(fetchedProductList.content).containsAll(productMapper.toDto(productList))
         }
+
+
     }
 }

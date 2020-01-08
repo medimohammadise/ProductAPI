@@ -1,5 +1,6 @@
 package com.hse24.productapi.service
 
+import com.hse24.productapi.BaseTest
 import com.hse24.productapi.config.AppConfiguration
 import com.hse24.productapi.extensions.getTheDayBefore
 import com.hse24.productapi.integration.restconsumer.dto.ExchangeRateDTO
@@ -23,7 +24,7 @@ import javax.transaction.Transactional
 @ExtendWith
 @SpringBootTest
 @Transactional
-class CurrencyConverterServiceTest {
+class CurrencyConverterServiceTest: BaseTest() {
 
 
     @Autowired
