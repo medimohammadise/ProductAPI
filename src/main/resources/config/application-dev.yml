@@ -15,9 +15,9 @@ spring:
       indent-output: true
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:postgresql://localhost:9005/productdb
-    username: ecomplete
-    password: ecomplete
+    url: jdbc:postgresql://localhost:9006/productdb
+    username: productdb
+    password: productdb
     hikari:
       poolName: Hikari
       auto-commit: false
@@ -40,7 +40,7 @@ spring:
   activemq:
     packages:
       trusted: com.hse24.productapi.integration.restconsumer.da
-    broker-url: "tcp://localhost:61616"
+    broker-url: "tcp://localhost:61617"
     username: "admin"
     password: "admin"
 
